@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iutblagnac</groupId>
-	<artifactId>pizzeria</artifactId>
+	<artifactId>TP5</artifactId>
 	<version>1.0</version>
 	<name>TP5</name>
 	<description>The observer pattern example</description>
@@ -53,7 +53,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>tp4</mainClass>
+							<mainClass>CourseController.java</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
