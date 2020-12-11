@@ -5,13 +5,13 @@
 	<groupId>com.iutblagnac</groupId>
 	<artifactId>pizzeria</artifactId>
 	<version>1.0</version>
-	<name>pizzeria</name>
-	<description>The Pizzeria factory example</description>
+	<name>TP5</name>
+	<description>The observer pattern example</description>
 
 	<properties>
 		<junit.version>4.13</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        	<!--<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>-->
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -26,7 +26,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.github.handofgod94/jacoco-cov-badge-maven-plugin -->
+
 		<dependency>
 			<groupId>io.github.handofgod94</groupId>
 			<artifactId>jacoco-cov-badge-maven-plugin</artifactId>
