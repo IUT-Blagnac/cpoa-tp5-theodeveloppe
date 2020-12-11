@@ -13,23 +13,22 @@ import observer.LayoutConstants;
 @SuppressWarnings("serial")
 public class PyChartObserver extends JPanel implements Observer {
 
-	private Vector<CourseRecord> courseData;
+    private Vector<CourseRecord> courseData;
 
-	/**
-	 * Creates a BarChartObserver object
-	 * 
-	 * @param data
-	 *            a CourseData object to observe
-	 */
-	public PyChartObserver(CourseData data) {
-		data.attach(this);
-		this.courseData = data.getUpdate();
-		this.setPreferredSize(new Dimension(2 * LayoutConstants.xOffset
-				+ (LayoutConstants.barSpacing + LayoutConstants.barWidth)
-				* this.courseData.size(), LayoutConstants.graphHeight + 2
-				* LayoutConstants.yOffset));
-		this.setBackground(Color.white);
-	}
+    /**
+     * Creates a BarChartObserver object
+     *
+     * @param data a CourseData object to observe
+     */
+    public PyChartObserver(CourseData data) {
+        data.attach(this);
+        this.courseData = data.getUpdate();
+        this.setPreferredSize(new Dimension(2 * LayoutConstants.xOffset
+                + (LayoutConstants.barSpacing + LayoutConstants.barWidth)
+                * this.courseData.size(), LayoutConstants.graphHeight + 2
+                * LayoutConstants.yOffset));
+        this.setBackground(Color.white);
+    }
 
     public void paint(Graphics g) {
         super.paint(g);
@@ -54,23 +53,22 @@ public class PyChartObserver extends JPanel implements Observer {
         }
     }
 
-    	/**
-	 * Informs this observer that the observed CourseData object has changed
-	 * 
-	 * @param o
-	 *            the observed CourseData object that has changed
-	 */
-	public void update(Observable o, Vector<CourseRecord> courseData) {
-		//CourseData data = (CourseData) o;
+    /**
+     * Informs this observer that the observed CourseData object has changed
+     *
+     * @param o the observed CourseData object that has changed
+     */
+    public void update(Observable o, Vector<CourseRecord> courseData) {
+        //CourseData data = (CourseData) o;
         //this.courseData = data.getUpdate();
         this.courseData = courseData;
 
-		this.setPreferredSize(new Dimension(2 * LayoutConstants.xOffset
-				+ (LayoutConstants.barSpacing + LayoutConstants.barWidth)
-				* this.courseData.size(), LayoutConstants.graphHeight + 2
-				* LayoutConstants.yOffset));
-		this.revalidate();
-		this.repaint();
-	}
-    
+        this.setPreferredSize(new Dimension(2 * LayoutConstants.xOffset
+                + (LayoutConstants.barSpacing + LayoutConstants.barWidth)
+                * this.courseData.size(), LayoutConstants.graphHeight + 2
+                * LayoutConstants.yOffset));
+        this.revalidate();
+        this.repaint();
+    }
+
 }

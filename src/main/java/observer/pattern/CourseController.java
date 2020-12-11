@@ -27,166 +27,160 @@ import observer.CourseRecord;
  */
 @SuppressWarnings("serial")
 public class CourseController extends JPanel implements Observer, ChangeListener, ActionListener {
-	/**
-	 * Constructs a CourseController object
-	 * 
-	 * @param courses
-	 *            a set of courses and their marks
-	 */
-	public CourseController(CourseData courses) {
-		this.courseData = courses;
-		this.sliders = new Vector<JSlider>();
-		this.setLayout(new GridBagLayout());
-		this.setBackground(Color.white);
+    /**
+     * Constructs a CourseController object
+     *
+     * @param courses a set of courses and their marks
+     */
+    public CourseController(CourseData courses) {
+        this.courseData = courses;
+        this.sliders = new Vector<JSlider>();
+        this.setLayout(new GridBagLayout());
+        this.setBackground(Color.white);
 
-		coursePanel = new JPanel();
-		coursePanel.setBorder(new TitledBorder("Courses"));
-		coursePanel.setLayout(new GridLayout(0, 1));
+        coursePanel = new JPanel();
+        coursePanel.setBorder(new TitledBorder("Courses"));
+        coursePanel.setLayout(new GridLayout(0, 1));
 
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.fill = GridBagConstraints.BOTH;
-		courses.attach(this);
-		Vector<CourseRecord> state = courses.getUpdate();
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        courses.attach(this);
+        Vector<CourseRecord> state = courses.getUpdate();
 
-		for (int i = 0; i < state.size(); i++)
-			this.addCourse(state.elementAt(i));
+        for (int i = 0; i < state.size(); i++)
+            this.addCourse(state.elementAt(i));
 
-		JScrollPane scrollPane = new JScrollPane(coursePanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		JButton button = new JButton("New Courses");
-		button.addActionListener(this);
+        JScrollPane scrollPane = new JScrollPane(coursePanel,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JButton button = new JButton("New Courses");
+        button.addActionListener(this);
 
-		constraints.weightx = 0.5;
-		constraints.weighty = 1.0;
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		this.add(scrollPane, constraints);
+        constraints.weightx = 0.5;
+        constraints.weighty = 1.0;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        this.add(scrollPane, constraints);
 
-		constraints.weightx = 0.5;
-		constraints.weighty = 0;
-		constraints.gridy = 1;
-		this.add(button, constraints);
-	}
+        constraints.weightx = 0.5;
+        constraints.weighty = 0;
+        constraints.gridy = 1;
+        this.add(button, constraints);
+    }
 
-	/**
-	 * Add a new course
-	 * 
-	 * @param record
-	 *            the new course record to be added
-	 */
-	public void addCourse(CourseRecord record) {
-		JSlider slider = new JSlider();
-		slider.setBackground(Color.white);
-		slider.setName(record.getName());
-		slider.setValue(record.getNumOfStudents());
-		slider.setMinimum(0);
-		slider.setMaximum(100);
-		slider.setMajorTickSpacing(25);
-		slider.setMinorTickSpacing(5);
-		slider.setPaintTicks(true);
-		slider.setPaintLabels(true);
-		slider.setBorder(new TitledBorder(record.getName()));
-		slider.addChangeListener(this);
-		coursePanel.add(slider);
-		coursePanel.revalidate();
-		sliders.addElement(slider);
-	}
+    /**
+     * Add a new course
+     *
+     * @param record the new course record to be added
+     */
+    public void addCourse(CourseRecord record) {
+        JSlider slider = new JSlider();
+        slider.setBackground(Color.white);
+        slider.setName(record.getName());
+        slider.setValue(record.getNumOfStudents());
+        slider.setMinimum(0);
+        slider.setMaximum(100);
+        slider.setMajorTickSpacing(25);
+        slider.setMinorTickSpacing(5);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setBorder(new TitledBorder(record.getName()));
+        slider.addChangeListener(this);
+        coursePanel.add(slider);
+        coursePanel.revalidate();
+        sliders.addElement(slider);
+    }
 
-	/**
-	 * Informs this CourseController that a new course has been added
-	 * 
-	 * @param o
-	 *            the CourseData subject that has changed
-	 */
-	 public void update(Observable o, Vector<CourseRecord> courseData) {
+    /**
+     * Informs this CourseController that a new course has been added
+     *
+     * @param o the CourseData subject that has changed
+     */
+    public void update(Observable o, Vector<CourseRecord> courseData) {
 
-		Vector<CourseRecord> newCourses = courseData;
-		for (int i = sliders.size(); i < newCourses.size(); i++) {
-			this.addCourse((CourseRecord) newCourses.elementAt(i));
-		}
-	} 
+        Vector<CourseRecord> newCourses = courseData;
+        for (int i = sliders.size(); i < newCourses.size(); i++) {
+            this.addCourse((CourseRecord) newCourses.elementAt(i));
+        }
+    }
 
-	/**
-	 * Manages the creation of a new course. Called when the "New Course" button is pressed.
-	 * 
-	 * @param arg0
-	 *            not used
-	 */
-	public void actionPerformed(ActionEvent arg0) {
-		String input = JOptionPane.showInputDialog("Please enter new course name:");
-		if (input != null){
-			courseData.addCourseRecord(new CourseRecord(input, 50), observers);
-			// leave it up notify/update mechanism to invoke this.addCourse
-		}
-	}
+    /**
+     * Manages the creation of a new course. Called when the "New Course" button is pressed.
+     *
+     * @param arg0 not used
+     */
+    public void actionPerformed(ActionEvent arg0) {
+        String input = JOptionPane.showInputDialog("Please enter new course name:");
+        if (input != null) {
+            courseData.addCourseRecord(new CourseRecord(input, 50), observers);
+            // leave it up notify/update mechanism to invoke this.addCourse
+        }
+    }
 
-	/**
-	 * Handles the changing of the marks for a course (changing of a JSlider)
-	 * 
-	 * @param arg0
-	 *            the JSlider that has changed
-	 */
-	public void stateChanged(ChangeEvent arg0) {
-		JSlider slider = (JSlider) arg0.getSource();
-		courseData.changeCourseRecord(slider.getName(), slider.getValue());
-	}
+    /**
+     * Handles the changing of the marks for a course (changing of a JSlider)
+     *
+     * @param arg0 the JSlider that has changed
+     */
+    public void stateChanged(ChangeEvent arg0) {
+        JSlider slider = (JSlider) arg0.getSource();
+        courseData.changeCourseRecord(slider.getName(), slider.getValue());
+    }
 
-	/**
-	 * Sets up an initial set of three courses
-	 * 
-	 * @param args
-	 *            not used
-	 */
-	public static void main(String[] args) {
-		CourseData data = new CourseData();
-		data.addCourseRecord(new CourseRecord("Physics", 50), null);
-		data.addCourseRecord(new CourseRecord("Chemistry", 50), null);
-		data.addCourseRecord(new CourseRecord("Biology", 50), null);
+    /**
+     * Sets up an initial set of three courses
+     *
+     * @param args not used
+     */
+    public static void main(String[] args) {
+        CourseData data = new CourseData();
+        data.addCourseRecord(new CourseRecord("Physics", 50), null);
+        data.addCourseRecord(new CourseRecord("Chemistry", 50), null);
+        data.addCourseRecord(new CourseRecord("Biology", 50), null);
 
-		CourseController controller = new CourseController(data);
-		BarChartObserver bar = new BarChartObserver(data);
-		PyChartObserver pychart = new PyChartObserver(data);
+        CourseController controller = new CourseController(data);
+        BarChartObserver bar = new BarChartObserver(data);
+        PyChartObserver pychart = new PyChartObserver(data);
 
-		observers.add(bar);
-		observers.add(pychart);
-		observers.add(controller);
+        observers.add(bar);
+        observers.add(pychart);
+        observers.add(controller);
 
-		JScrollPane scrollPane = new JScrollPane(bar,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(bar,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-		JFrame frame = new JFrame("Observer Pattern");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridBagLayout());
-		frame.setResizable(false);
+        JFrame frame = new JFrame("Observer Pattern");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(new GridBagLayout());
+        frame.setResizable(false);
 
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.fill = GridBagConstraints.BOTH;
-		constraints.weightx = 0.1;
-		constraints.weighty = 1;
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		frame.getContentPane().add(controller, constraints);
-		constraints.weightx = 1;
-		constraints.weighty = 1.0;
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		frame.getContentPane().add(scrollPane, constraints);
-		constraints.weightx = 1;
-		constraints.weighty = 1.0;
-		constraints.gridx = 1;
-		constraints.gridy = 1;
-		frame.getContentPane().add(pychart, constraints);
-		frame.pack();
-		frame.setVisible(true);
-	}
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.1;
+        constraints.weighty = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        frame.getContentPane().add(controller, constraints);
+        constraints.weightx = 1;
+        constraints.weighty = 1.0;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        frame.getContentPane().add(scrollPane, constraints);
+        constraints.weightx = 1;
+        constraints.weighty = 1.0;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        frame.getContentPane().add(pychart, constraints);
+        frame.pack();
+        frame.setVisible(true);
+    }
 
-	private CourseData courseData;
+    private CourseData courseData;
 
-	private Vector<JSlider> sliders;
+    private Vector<JSlider> sliders;
 
-	private JPanel coursePanel;
+    private JPanel coursePanel;
 
-	private static ArrayList<Observer> observers = new ArrayList<>();
+    private static ArrayList<Observer> observers = new ArrayList<>();
 }
